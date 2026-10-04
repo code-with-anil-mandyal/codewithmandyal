@@ -2,14 +2,14 @@
 
 ### Senior Android & Flutter Developer
 
-I’m a Senior Mobile App Developer with **6+ years of experience** building scalable, high-performance mobile applications using Kotlin, Jetpack Compose, Flutter, and AI integration.
+Senior Mobile App Developer with **6+ years of experience** building scalable, high-performance mobile applications using Kotlin, Jetpack Compose, Flutter, and AI integration.
 
 I specialize in Android development, clean architecture, cross-platform solutions, and creating user-friendly mobile experiences.
 
 🌐 **Portfolio:** [codewithmandyal.com](https://codewithmandyal.com)  
 📍 **Location:** Chandigarh, India  
 💼 **Experience:** 6+ Years  
-📧 **Email:** anilani786@gmail.com
+📧 **Email:** [anilani786@gmail.com](mailto:anilani786@gmail.com)
 
 ---
 
