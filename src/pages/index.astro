@@ -917,6 +917,32 @@ const skills = [
         </div>
       </section>
 
+      <!-- Latest LinkedIn Posts Section -->
+      <section class="linkedin" id="linkedin">
+        <div class="section-container">
+          <div class="section-header reveal">
+            <span class="section-label-badge">LINKEDIN UPDATES</span>
+            <h2 class="section-title">
+              Latest LinkedIn Posts
+            </h2>
+            <p class="section-subtitle">
+              My latest thoughts, technical insights, and updates on LinkedIn.
+            </p>
+          </div>
+
+          <div class="linkedin-container reveal">
+            <!-- LinkedInEmbed widget -->
+            <iframe
+              src="https://www.linkedinembed.com/embed/AAHTxlIwGMWo7SSKu2sd"
+              title="Latest LinkedIn Posts"
+              loading="lazy"
+              style="width:100%;height:540px;border:0;color-scheme:normal;"
+              allowtransparency="true"
+            ></iframe>
+          </div>
+        </div>
+      </section>
+
       <!-- Contact Section -->
       <section class="contact" id="contact">
         <div class="section-container">
@@ -1178,6 +1204,24 @@ const skills = [
       } else {
         revealElements.forEach((el) => el.classList.add("is-visible"));
       }
+
+      // Auto-resize LinkedInEmbed iframe dynamically based on content height
+      window.addEventListener("message", (event) => {
+        if (event.origin !== "https://www.linkedinembed.com") return;
+        const data = event.data;
+        if (
+          !data ||
+          data.type !== "linkedembed:resize" ||
+          typeof data.height !== "number"
+        )
+          return;
+        const linkedinIframe = document.querySelector(
+          ".linkedin-container iframe",
+        ) as HTMLElement | null;
+        if (linkedinIframe) {
+          linkedinIframe.style.height = `${Math.ceil(data.height)}px`;
+        }
+      });
     </script>
   </body>
 </html>
@@ -2495,6 +2539,41 @@ const skills = [
     margin-bottom: 16px;
   }
 
+  /* Latest LinkedIn Posts Section */
+  .linkedin {
+    padding: 100px 0 0;
+  }
+
+  .linkedin-container {
+    width: 100%;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 18px;
+    padding: 24px;
+    box-sizing: border-box;
+    overflow: hidden;
+    transition:
+      border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @media (hover: hover) {
+    .linkedin-container:hover {
+      border-color: rgba(167, 139, 250, 0.35);
+      box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.4),
+        0 0 15px rgba(167, 139, 250, 0.08);
+    }
+  }
+
+  .linkedin-container iframe {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 540px;
+    display: block !important;
+    border: 0 !important;
+  }
+
   /* Contact Section */
   .contact {
     padding: 100px 0;
@@ -2705,6 +2784,10 @@ const skills = [
     .blog-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+
+    .linkedin-container iframe {
+      height: 880px;
+    }
   }
 
   @media (max-width: 900px) {
@@ -2736,6 +2819,10 @@ const skills = [
     .blog,
     .contact {
       padding: 80px 0;
+    }
+
+    .linkedin {
+      padding: 80px 0 0;
     }
 
     .projects-grid {
@@ -2819,6 +2906,19 @@ const skills = [
     .blog,
     .contact {
       padding: 60px 0;
+    }
+
+    .linkedin {
+      padding: 60px 0 0;
+    }
+
+    .linkedin-container {
+      padding: 16px 12px;
+      border-radius: 14px;
+    }
+
+    .linkedin-container iframe {
+      height: 1220px;
     }
 
     .about-stats-grid {
