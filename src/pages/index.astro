@@ -1,4 +1,8 @@
 ---
+import LinkedInPostCard from "../components/LinkedInPostCard.astro";
+import { linkedInPosts, linkedInProfile } from "../data/linkedinPosts";
+import { blogArticles } from "../data/blogArticles";
+
 const skills = [
   "Kotlin",
   "Jetpack Compose",
@@ -18,13 +22,18 @@ const skills = [
     <meta name="theme-color" content="#09090b" />
 
     <!-- Google tag (gtag.js) -->
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-YP3FJXN0S4"></script>
+    <script
+      is:inline
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-YP3FJXN0S4"></script>
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-      gtag('config', 'G-YP3FJXN0S4');
+      gtag("config", "G-YP3FJXN0S4");
     </script>
 
     <!-- SEO -->
@@ -782,118 +791,33 @@ const skills = [
           </div>
 
           <div class="blog-grid">
-            <!-- Article 1 -->
-            <article class="blog-card reveal">
-              <span class="blog-cat">ANDROID DEVELOPMENT</span>
-              <h3 class="blog-title">
-                <a
-                  href="https://medium.com/@codewithmandyal/building-an-offline-first-android-app-with-kotlin-room-and-workmanager-8a30662aa348"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Building an Offline-First Android App with Kotlin, Room, and WorkManager
-                </a>
-              </h3>
-              <p class="blog-desc">
-                A practical guide to local-first data, background sync, and
-                conflict handling in Jetpack Compose apps. Understand how
-                offline-first Android apps work, explore their architecture, and
-                implement a notes app using Kotlin, Room, and WorkManager.
-              </p>
-              <a
-                href="https://medium.com/@codewithmandyal/building-an-offline-first-android-app-with-kotlin-room-and-workmanager-8a30662aa348"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="blog-cta"
-              >
-                Read Article <span>↗</span>
-              </a>
-            </article>
+            {
+              blogArticles.map((article) => (
+                <article class="blog-card reveal">
+                  <span class="blog-cat">{article.category}</span>
+                  <h3 class="blog-title">
+                    <a
+                      href={article.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {article.title}
+                    </a>
+                  </h3>
+                  <p class="blog-desc">{article.description}</p>
+                  <a
+                    href={article.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="blog-cta"
+                  >
+                    Read Article <span>↗</span>
+                  </a>
+                </article>
+              ))
+            }
 
-            <!-- Article 2 -->
-            <article class="blog-card reveal">
-              <span class="blog-cat">KOTLIN / ANDROID</span>
-              <h3 class="blog-title">
-                <a
-                  href="https://codewithmandyal.medium.com/kotlin-functions-every-android-developer-should-understand-267ad573c812"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Kotlin Functions Every Android Developer Should Understand
-                </a>
-              </h3>
-              <p class="blog-desc">
-                Kotlin provides several powerful features that make functions
-                more expressive, concise, and flexible. Learn 7 important Kotlin
-                function concepts with simple examples—including higher-order,
-                extension, inline, noinline, and crossinline functions.
-              </p>
-              <a
-                href="https://codewithmandyal.medium.com/kotlin-functions-every-android-developer-should-understand-267ad573c812"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="blog-cta"
-              >
-                Read Article <span>↗</span>
-              </a>
-            </article>
-
-            <!-- Article 3 -->
-            <article class="blog-card reveal">
-              <span class="blog-cat">ANDROID DEVELOPMENT</span>
-              <h3 class="blog-title">
-                <a
-                  href="https://medium.com/@codewithmandyal/solid-principles-in-android-clean-architecture-3f2c72472202"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  SOLID Principles in Android Clean Architecture
-                </a>
-              </h3>
-              <p class="blog-desc">
-                Many Android developers memorize SOLID principles for interviews
-                but struggle to apply them in real projects. Explore how SOLID
-                works with Kotlin, MVVM, Hilt, and Clean Architecture.
-              </p>
-              <a
-                href="https://medium.com/@codewithmandyal/solid-principles-in-android-clean-architecture-3f2c72472202"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="blog-cta"
-              >
-                Read Article <span>↗</span>
-              </a>
-            </article>
-
-            <!-- Article 4 -->
-            <article class="blog-card reveal">
-              <span class="blog-cat">JETPACK COMPOSE</span>
-              <h3 class="blog-title">
-                <a
-                  href="https://medium.com/@codewithmandyal/implementing-paging-3-with-clean-architecture-mvvm-hilt-coroutines-and-jetpack-compose-in-ea7f068d483d"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Implementing Paging 3 with Clean Architecture, MVVM, Hilt,
-                  Coroutines, and Jetpack Compose
-                </a>
-              </h3>
-              <p class="blog-desc">
-                Learn how Android Paging 3 helps handle large datasets from
-                remote APIs, reducing memory usage and improving application
-                performance.
-              </p>
-              <a
-                href="https://medium.com/@codewithmandyal/implementing-paging-3-with-clean-architecture-mvvm-hilt-coroutines-and-jetpack-compose-in-ea7f068d483d"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="blog-cta"
-              >
-                Read Article <span>↗</span>
-              </a>
-            </article>
-
-            <!-- Medium Profile Banner -->
+            <!-- Medium Profile Banner (Always 6th item) -->
             <article class="blog-card medium-card reveal">
               <div class="medium-card-content">
                 <div class="medium-badge">M</div>
@@ -920,25 +844,32 @@ const skills = [
       <!-- Latest LinkedIn Posts Section -->
       <section class="linkedin" id="linkedin">
         <div class="section-container">
-          <div class="section-header reveal">
-            <span class="section-label-badge">LINKEDIN UPDATES</span>
-            <h2 class="section-title">
-              Latest LinkedIn Posts
-            </h2>
-            <p class="section-subtitle">
-              My latest thoughts, technical insights, and updates on LinkedIn.
-            </p>
+          <div class="section-header linkedin-header reveal">
+            <div class="linkedin-header-left">
+              <span class="section-label-badge">LINKEDIN UPDATES</span>
+              <h2 class="section-title">Latest LinkedIn Posts</h2>
+              <p class="section-subtitle">
+                My latest thoughts, technical insights, and updates on LinkedIn.
+              </p>
+            </div>
+            <div class="linkedin-header-right">
+              <a
+                href={linkedInProfile.recentActivityUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-primary linkedin-view-all-btn"
+              >
+                View All Posts <span>↗</span>
+              </a>
+            </div>
           </div>
 
-          <div class="linkedin-container reveal">
-            <!-- LinkedInEmbed widget -->
-            <iframe
-              src="https://www.linkedinembed.com/embed/AAHTxlIwGMWo7SSKu2sd"
-              title="Latest LinkedIn Posts"
-              loading="lazy"
-              style="width:100%;height:540px;border:0;color-scheme:normal;"
-              allowtransparency="true"
-            ></iframe>
+          <div class="linkedin-posts-grid">
+            {
+              linkedInPosts.map((post) => (
+                <LinkedInPostCard post={post} />
+              ))
+            }
           </div>
         </div>
       </section>
@@ -1204,24 +1135,6 @@ const skills = [
       } else {
         revealElements.forEach((el) => el.classList.add("is-visible"));
       }
-
-      // Auto-resize LinkedInEmbed iframe dynamically based on content height
-      window.addEventListener("message", (event) => {
-        if (event.origin !== "https://www.linkedinembed.com") return;
-        const data = event.data;
-        if (
-          !data ||
-          data.type !== "linkedembed:resize" ||
-          typeof data.height !== "number"
-        )
-          return;
-        const linkedinIframe = document.querySelector(
-          ".linkedin-container iframe",
-        ) as HTMLElement | null;
-        if (linkedinIframe) {
-          linkedinIframe.style.height = `${Math.ceil(data.height)}px`;
-        }
-      });
     </script>
   </body>
 </html>
@@ -2544,34 +2457,30 @@ const skills = [
     padding: 100px 0 0;
   }
 
-  .linkedin-container {
+  .linkedin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 48px;
+  }
+
+  .linkedin-header-left {
+    max-width: 680px;
+  }
+
+  .linkedin-view-all-btn {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* 3-column horizontal grid matching portfolio layout */
+  .linkedin-posts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
     width: 100%;
-    background: var(--bg-card);
-    border: 1px solid var(--border-subtle);
-    border-radius: 18px;
-    padding: 24px;
-    box-sizing: border-box;
-    overflow: hidden;
-    transition:
-      border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-      box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  @media (hover: hover) {
-    .linkedin-container:hover {
-      border-color: rgba(167, 139, 250, 0.35);
-      box-shadow:
-        0 8px 24px rgba(0, 0, 0, 0.4),
-        0 0 15px rgba(167, 139, 250, 0.08);
-    }
-  }
-
-  .linkedin-container iframe {
-    width: 100% !important;
-    max-width: 100% !important;
-    height: 540px;
-    display: block !important;
-    border: 0 !important;
   }
 
   /* Contact Section */
@@ -2785,8 +2694,9 @@ const skills = [
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .linkedin-container iframe {
-      height: 880px;
+    .linkedin-posts-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
     }
   }
 
@@ -2912,13 +2822,16 @@ const skills = [
       padding: 60px 0 0;
     }
 
-    .linkedin-container {
-      padding: 16px 12px;
-      border-radius: 14px;
+    .linkedin-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 20px;
+      margin-bottom: 32px;
     }
 
-    .linkedin-container iframe {
-      height: 1220px;
+    .linkedin-posts-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
     }
 
     .about-stats-grid {

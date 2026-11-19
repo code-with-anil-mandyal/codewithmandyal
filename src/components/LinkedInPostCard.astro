@@ -1,0 +1,436 @@
+---
+import type { LinkedInPost } from "../data/linkedinPosts";
+
+interface Props {
+  post: LinkedInPost;
+}
+
+const { post } = Astro.props;
+---
+
+<a
+  href={post.postUrl}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="linkedin-card reveal"
+  aria-label={`View post "${post.title || post.author.name}" on LinkedIn`}
+>
+  <!-- Compact Card Header -->
+  <div class="card-header">
+    <div class="author-avatar-wrap">
+      <img
+        src={post.author.profileImage}
+        alt={post.author.name}
+        class="author-avatar"
+        width="38"
+        height="38"
+        loading="lazy"
+      />
+    </div>
+
+    <div class="author-details">
+      <span class="author-name">{post.author.name}</span>
+      <p class="author-title" title={post.author.title}>{post.author.title}</p>
+      <div class="post-meta">
+        {
+          post.date && (
+            <>
+              <span class="post-date">{post.date}</span>
+              <span class="meta-dot">·</span>
+            </>
+          )
+        }
+        <span class="visibility-indicator" title="Public post">
+          <svg
+            class="globe-icon"
+            width="11"
+            height="11"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <path
+              d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+            ></path>
+          </svg>
+        </span>
+      </div>
+    </div>
+
+    <!-- LinkedIn Icon Badge -->
+    <div class="linkedin-icon-badge" aria-hidden="true" title="LinkedIn">
+      <svg
+        class="linkedin-svg"
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="#0a66c2"
+      >
+        <path
+          d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+        ></path>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Post Title -->
+  {post.title && <h3 class="post-title">{post.title}</h3>}
+
+  <!-- Short Text Preview (Clean, balanced 3-line preview) -->
+  <p class="post-text-preview">{post.preview}</p>
+
+  <!-- Hashtag Chips -->
+  {
+    post.hashtags && post.hashtags.length > 0 && (
+      <div class="post-hashtags">
+        {post.hashtags.map((tag) => (
+          <span class="hashtag">{tag}</span>
+        ))}
+      </div>
+    )
+  }
+
+  <!-- Full Infographic (Preserves 1:1 aspect ratio, uncropped) -->
+  {
+    post.image && (
+      <div class="post-media-wrapper">
+        <img
+          src={post.image.src}
+          alt={post.image.alt || post.title || "LinkedIn post infographic"}
+          class="post-image"
+          loading="lazy"
+        />
+        <div class="media-overlay">
+          <span class="overlay-cta">View on LinkedIn ↗</span>
+        </div>
+      </div>
+    )
+  }
+
+  <!-- Compact Card Footer -->
+  <div class="card-footer">
+    <div class="view-post-link">
+      <span>View Post</span>
+      <span class="arrow">↗</span>
+    </div>
+  </div>
+</a>
+
+<style>
+  .linkedin-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 14px;
+    padding: 18px;
+    width: 100%;
+    min-width: 0;
+    position: relative;
+    box-sizing: border-box;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition:
+      transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @media (hover: hover) {
+    .linkedin-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(167, 139, 250, 0.35);
+      box-shadow:
+        0 10px 28px rgba(0, 0, 0, 0.5),
+        0 0 16px rgba(167, 139, 250, 0.1);
+    }
+  }
+
+  /* Compact Card Header */
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .author-avatar-wrap {
+    flex-shrink: 0;
+  }
+
+  .author-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1.5px solid var(--border-accent);
+    transition:
+      border-color 0.2s ease,
+      transform 0.2s ease;
+    display: block;
+  }
+
+  .linkedin-card:hover .author-avatar {
+    border-color: var(--accent-purple);
+    transform: scale(1.05);
+  }
+
+  .author-details {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .author-name {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.25;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .linkedin-card:hover .author-name {
+    color: var(--accent-purple-light);
+  }
+
+  .author-title {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.3;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10.5px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .meta-dot {
+    font-size: 10px;
+    opacity: 0.6;
+  }
+
+  .visibility-indicator {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .globe-icon {
+    opacity: 0.6;
+  }
+
+  /* LinkedIn Icon Badge */
+  .linkedin-icon-badge {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    transition: transform 0.2s ease;
+  }
+
+  .linkedin-card:hover .linkedin-icon-badge {
+    transform: scale(1.08);
+  }
+
+  /* Post Title */
+  .post-title {
+    font-family: var(--font-heading);
+    font-size: 14.5px;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    transition: color 0.2s ease;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    min-height: 2.7em;
+  }
+
+  .linkedin-card:hover .post-title {
+    color: var(--accent-purple-light);
+  }
+
+  /* Post Text Preview (Clean, consistent 3-line height) */
+  .post-text-preview {
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+    word-break: break-word;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+    min-height: 4.5em;
+  }
+
+  /* Hashtags */
+  .post-hashtags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 12px;
+    height: 22px;
+    overflow: hidden;
+  }
+
+  .hashtag {
+    font-size: 10.5px;
+    font-weight: 500;
+    color: var(--accent-purple);
+    background: var(--accent-purple-bg);
+    border: 1px solid rgba(167, 139, 250, 0.15);
+    padding: 2px 7px;
+    border-radius: 4px;
+    white-space: nowrap;
+    pointer-events: none;
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .linkedin-card:hover .hashtag {
+    background: rgba(167, 139, 250, 0.2);
+    border-color: rgba(167, 139, 250, 0.35);
+  }
+
+  /* Post Media / Infographic */
+  .post-media-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 10px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    transition: border-color 0.25s ease;
+  }
+
+  .linkedin-card:hover .post-media-wrapper {
+    border-color: var(--border-accent);
+  }
+
+  .post-image {
+    width: 100%;
+    height: 100%;
+    display: block;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .linkedin-card:hover .post-image {
+    transform: scale(1.02);
+  }
+
+  .media-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(9, 9, 11, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+  }
+
+  .linkedin-card:hover .media-overlay {
+    opacity: 1;
+  }
+
+  .overlay-cta {
+    background: rgba(18, 18, 23, 0.92);
+    backdrop-filter: blur(8px);
+    color: var(--accent-purple-light);
+    border: 1px solid var(--border-accent);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Compact Card Footer */
+  .card-footer {
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .view-post-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--accent-purple-light);
+    font-size: 12px;
+    font-weight: 600;
+    transition: color 0.2s ease;
+  }
+
+  .view-post-link .arrow {
+    display: inline-block;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .linkedin-card:hover .view-post-link {
+    color: #ffffff;
+  }
+
+  .linkedin-card:hover .view-post-link .arrow {
+    transform: translate(3px, -3px);
+  }
+
+  @media (max-width: 640px) {
+    .linkedin-card {
+      padding: 16px;
+      border-radius: 12px;
+    }
+
+    .author-avatar {
+      width: 36px;
+      height: 36px;
+    }
+
+    .post-title {
+      font-size: 14px;
+      min-height: auto;
+    }
+
+    .post-text-preview {
+      font-size: 12px;
+      min-height: auto;
+    }
+  }
+</style>
